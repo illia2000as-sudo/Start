@@ -1,4 +1,4 @@
-nname: Build Installer EXE
+name: Build Installer EXE
 
 on:
   push:
