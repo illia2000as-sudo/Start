@@ -27,10 +27,12 @@ jobs:
         run: |
           pyinstaller --onefile --noconsole main.py
 
-      - name: Build Installer with Inno Setup
-        uses: MinCiencia/action-innosetup@v1
-        with:
-          filepath: installer.iss
+      - name: Install Inno Setup
+        uses: asiaggl/innosetup-action@v1
+
+      - name: Build Installer
+        run: |
+          ISCC.exe installer.iss
 
       - name: Upload Installer Artifact
         uses: actions/upload-artifact@v4
