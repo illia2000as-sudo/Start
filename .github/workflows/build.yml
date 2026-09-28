@@ -1,8 +1,8 @@
-name: Build Installer EXE
+name: Build Windows EXE
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
@@ -10,33 +10,25 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyinstaller
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install customtkinter Pillow pyinstaller
 
-      - name: Build Portable EXE
-        run: |
-          pyinstaller --onefile --noconsole main.py
+    - name: Build EXE with PyInstaller
+      run: |
+        pyinstaller --noconfirm --onefile --windowed --collect-all customtkinter main.py
 
-      - name: Install Inno Setup via Choco
-        run: |
-          choco install innosetup -y
-
-      - name: Build Installer
-        run: |
-          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
-
-      - name: Upload Installer Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ClickerGame-Installer
-          path: Output/ClickerSetup.exe
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: CrystalClicker-Windows-EXE
+        path: dist/main.exe
+        
