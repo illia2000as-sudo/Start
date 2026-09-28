@@ -1,7 +1,6 @@
 import customtkinter as ctk
 import json
 import os
-import random
 
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
@@ -26,16 +25,14 @@ class CrystalClickerApp(ctk.CTk):
 
         self.load_data()
 
-        # Разметка окна на 2 колонки: Игровое поле и Магазин
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
-        # --- Левая панель (Клик и Статистика) ---
+        # Левая панель
         self.left_panel = ctk.CTkFrame(self, fg_color="#161b22", corner_radius=15)
         self.left_panel.grid(row=0, column=0, padx=15, pady=15, sticky="nsew")
 
-        # Статы
         self.score_card = ctk.CTkFrame(self.left_panel, fg_color="#21262d", corner_radius=10)
         self.score_card.pack(fill="x", padx=15, pady=15)
 
@@ -45,7 +42,6 @@ class CrystalClickerApp(ctk.CTk):
         self.lbl_crystals = ctk.CTkLabel(self.score_card, text=f"💎 Кристаллы: {self.crystals}", font=ctk.CTkFont(size=14), text_color="#58a6ff")
         self.lbl_crystals.pack(pady=2)
 
-        # Кликер-зона
         self.click_btn = ctk.CTkButton(
             self.left_panel, text="💎\nКЛИК!", font=ctk.CTkFont(size=28, weight="bold"),
             fg_color="#1f6beb", hover_color="#388bfd", corner_radius=100, width=180, height=180,
@@ -53,18 +49,16 @@ class CrystalClickerApp(ctk.CTk):
         )
         self.click_btn.pack(expand=True, pady=20)
 
-        # --- Правая панель (Магазин прокачек) ---
+        # Правая панель (Магазин)
         self.right_panel = ctk.CTkFrame(self, fg_color="#161b22", corner_radius=15)
         self.right_panel.grid(row=0, column=1, padx=15, pady=15, sticky="nsew")
 
-        ctk.CTkLabel(self.right_panel, text="🛒 Магазин", font=ctk.CTkFont(size=20, weight="bold")).pack(pady=15)
+        ctk.CTkLabel(self.right_panel, text="🛒 Магазин Crystal Clicker", font=ctk.CTkFont(size=20, weight="bold")).pack(pady=15)
 
-        # Карточки товаров в стиле интерфейса со скриншота
         self.card_click = self.create_shop_item("✊ Сила клика", self.buy_click_power)
         self.card_auto = self.create_shop_item("⚙️ Автокликер", self.buy_auto)
         self.card_factory = self.create_shop_item("🏭 Фабрика", self.buy_factory)
 
-        # Перерождение
         self.rebirth_btn = ctk.CTkButton(
             self.right_panel, text="👑 ПЕРЕРОЖДЕНИЕ (5,000 очков)", 
             fg_color="#d29922", hover_color="#e3b341", font=ctk.CTkFont(weight="bold"),
